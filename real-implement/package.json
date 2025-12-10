@@ -1,0 +1,49 @@
+{
+  "name": "encrypted-insider-trading-detector",
+  "version": "1.0.0",
+  "description": "Fully private insider-trading detection using FHEVM",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network fhenix",
+    "deploy:local": "hardhat run scripts/deploy.js --network local",
+    "test": "hardhat test",
+    "test:fhe": "hardhat run scripts/test-fhe.js --network local",
+    "frontend:start": "cd frontend && npm start",
+    "frontend:build": "cd frontend && npm run build",
+    "chain": "hardhat node",
+    "verify": "hardhat verify --network fhenix"
+  },
+  "keywords": [
+    "fhe",
+    "fhevm",
+    "privacy",
+    "blockchain",
+    "insider-trading",
+    "encryption"
+  ],
+  "author": "Encrypted Detector Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@fhenixprotocol/hardhat-fhenix": "^0.2.0",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@typechain/ethers-v6": "^0.5.0",
+    "@typechain/hardhat": "^9.0.0",
+    "chai": "^4.3.0",
+    "dotenv": "^16.0.0",
+    "ethers": "^6.8.0",
+    "hardhat": "^2.19.0",
+    "hardhat-gas-reporter": "^1.0.8",
+    "solidity-coverage": "^0.8.0",
+    "typechain": "^8.3.0"
+  },
+  "dependencies": {
+    "@fhenixprotocol/client": "^0.2.0",
+    "@fhenixprotocol/contracts": "^0.2.0",
+    "@openzeppelin/contracts": "^5.0.0"
+  }
+}
