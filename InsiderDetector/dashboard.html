@@ -22,6 +22,7 @@
             --gradient: linear-gradient(135deg, #FFD700, #FFA000);
             --shadow: 0 10px 30px rgba(255, 215, 0, 0.15);
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --nav-height: 80px;
         }
         
         * {
@@ -131,84 +132,138 @@
             opacity: 0.3;
         }
         
-        /* Navigation */
+        /* ================= NAVIGATION - FIXED ================= */
         .navbar {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            padding: 20px 0;
+            height: var(--nav-height);
+            padding: 0;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
             z-index: 1000;
-            background: rgba(18, 18, 18, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
         }
-        
+
+        .navbar.scrolled {
+            height: 70px;
+            background: rgba(10, 10, 10, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+         .navbar-brand {
+  font-size: 24px;      /* Change size */
+  font-weight: 700;     /* Professional bold */
+  letter-spacing: 0.5px; /* Slight spacing */
+}
+.nav-text {
+  font-size: 20px;   /* Increase / decrease here */
+  font-weight: 600;
+}
         .nav-container {
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 20px;
         }
-        
+
         .logo {
+            color: var(--primary-yellow);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            text-decoration: none;
-            color: var(--primary-yellow);
-            font-size: 1.5rem;
-            font-weight: 700;
+            gap: 12px;
             transition: var(--transition);
+            letter-spacing: -0.5px;
         }
-        
-        .logo i {
-            margin-right: 10px;
-            font-size: 1.8rem;
-        }
-        
+
         .logo:hover {
+            transform: translateY(-3px);
             color: var(--yellow-light);
-            transform: translateY(-2px);
         }
-        
+
+        .logo i {
+            font-size: 2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Desktop Navigation Menu */
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 35px;
+            list-style: none;
         }
-        
+
         .nav-link {
             color: var(--text-light);
             text-decoration: none;
             font-weight: 500;
-            transition: var(--transition);
+            font-size: 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: var(--transition);
+            position: relative;
+            padding: 8px 0;
         }
-        
-        .nav-link:hover, .nav-link.active {
+
+        .nav-link:not(.nav-btn)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:not(.nav-btn)::after,
+        .nav-link.active:not(.nav-btn)::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
             color: var(--primary-yellow);
         }
-        
+
         .nav-btn {
             background: var(--gradient);
-            color: var(--dark-bg);
-            padding: 10px 20px;
+            color: #000;
+            padding: 12px 28px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
         }
-        
+
         .nav-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.25);
         }
-        
+
+        .nav-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Theme Toggle */
         .theme-toggle {
             background: rgba(255, 215, 0, 0.1);
             width: 40px;
@@ -225,16 +280,121 @@
             background: rgba(255, 215, 0, 0.2);
             transform: rotate(30deg);
         }
-        
+
+        /* Mobile Menu Toggle Button */
         .menu-toggle {
             display: none;
-            font-size: 1.5rem;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: transparent;
+            border: none;
             cursor: pointer;
+            padding: 0;
+            z-index: 1001;
         }
-        
-        /* Dashboard Header */
+
+        .menu-toggle span {
+            width: 100%;
+            height: 3px;
+            background: var(--primary-yellow);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            transform-origin: left center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg);
+            width: 28px;
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            width: 28px;
+        }
+
+        /* Mobile Navigation Menu */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: var(--nav-height);
+                right: -100%;
+                width: 320px;
+                height: calc(100vh - var(--nav-height));
+                background: rgba(18, 18, 18, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 40px 30px;
+                gap: 25px;
+                border-left: 1px solid rgba(255, 215, 0, 0.3);
+                transition: right 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+                z-index: 999;
+                overflow-y: auto;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: 1.1rem;
+                width: 100%;
+                padding: 12px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-link:last-child {
+                border-bottom: none;
+            }
+
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+                padding: 15px 30px;
+            }
+
+            .theme-toggle {
+                order: -1;
+                margin-top: 10px;
+                align-self: flex-start;
+            }
+        }
+
+        /* Overlay when mobile menu is open */
+        .menu-overlay {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            width: 100%;
+            height: calc(100vh - var(--nav-height));
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Dashboard Header - Adjusted for Fixed Nav */
         .dashboard-header {
-            padding: 150px 0 60px;
+            padding: calc(var(--nav-height) + 60px) 0 60px;
             position: relative;
         }
         
@@ -491,10 +651,10 @@
             border-radius: 50%;
             position: relative;
             background: conic-gradient(
-                #4CAF50 calc(var(--percentage) * 1%),
-                #FFC107 0 calc(var(--percentage) * 1%),
-                #FF9800 0 calc(var(--percentage) * 1%),
-                #F44336 0 calc(var(--percentage) * 1%)
+                #4CAF50 0% 42%,
+                #FFC107 42% 77%,
+                #FF9800 77% 95%,
+                #F44336 95% 100%
             );
             animation: rotate 20s linear infinite;
         }
@@ -999,6 +1159,45 @@
             }
         }
         
+        /* Animation Classes */
+        .card-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .card-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-right {
+            transform: translateX(-40px);
+        }
+
+        .slide-left {
+            transform: translateX(40px);
+        }
+
+        .scale-in {
+            transform: scale(0.92);
+        }
+
+        .scale-in.visible {
+            transform: scale(1);
+        }
+
+        .scale-animate {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 0.6s cubic-bezier(0.25, 1.25, 0.5, 1);
+        }
+
+        .scale-animate.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
         /* Responsive Styles */
         @media (max-width: 1024px) {
             .dashboard-stats {
@@ -1032,14 +1231,6 @@
         }
         
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
-            
             .dashboard-title {
                 font-size: 2.5rem;
             }
@@ -1090,41 +1281,11 @@
                 align-self: flex-start;
             }
         }
-.card-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
-}
-
-.card-animate.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.slide-right {
-    transform: translateX(-40px);
-}
-
-.slide-left {
-    transform: translateX(40px);
-}
-
-.scale-in {
-    transform: scale(0.92);
-}
-
-.scale-in.visible {
-    transform: scale(1);
-}
-.scale-animate {
-    opacity: 0;
-    transform: scale(0.85);
-    transition: all 0.6s cubic-bezier(0.25, 1.25, 0.5, 1);
-}
-
-.scale-animate.visible {
-    opacity: 1;
-    transform: scale(1);
+.logo span {
+    font-size: 22px;        
+    font-weight: 700;
+    color: #f7d708;
+    letter-spacing: 1px;
 }
     </style>
 </head>
@@ -1140,27 +1301,31 @@
         <div class="grid-overlay"></div>
     </div>
 
-    <!-- Navigation -->
+    <!-- Navigation - FIXED -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
                 <i class="fas fa-user-secret"></i>
-                <span>EncryptedDetector</span>
+                <span>Detector</span>
             </a>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
-                <a href="dashboard.html" class="nav-link active"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="detection.html" class="nav-link"><i class="fas fa-search"></i> Detection</a>
-                <div class="theme-toggle">
+            
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" class="nav-link active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="detection.html" class="nav-link"><i class="fas fa-search"></i> Detection</a></li>
+                <li><a href="#" class="theme-toggle">
                     <i class="fas fa-moon"></i>
-                </div>
-                <a href="detection.html" class="nav-btn">
-                    <i class="fas fa-rocket"></i> Try Demo
-                </a>
-            </div>
-            <div class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
+                </a></li>
+                <li><a href="detection.html" class="nav-btn"><i class="fas fa-rocket"></i> Try Demo</a></li>
+            </ul>
+            
+            <div class="menu-overlay"></div>
         </div>
     </nav>
 
@@ -1533,11 +1698,73 @@
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
     <script>
         // Initialize Locomotive Scroll
-const scroll = new LocomotiveScroll({
-    el: document.querySelector('[data-scroll-container]'),
-    smooth: true,
-    multiplier: 0.4,   // पहले 0.8 था = बहुत fast, tight feel देता है
-});        
+        const scroll = new LocomotiveScroll({
+            el: document.querySelector('[data-scroll-container]'),
+            smooth: true,
+            multiplier: 0.4,
+        });
+        
+        // ================= NAV MENU FUNCTIONALITY =================
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Close menu when clicking overlay
+        menuOverlay.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Close menu when clicking nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const icon = themeToggle.querySelector('i');
+                if (icon.classList.contains('fa-moon')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                    document.documentElement.style.setProperty('--primary-yellow', '#FFA000');
+                    document.documentElement.style.setProperty('--dark-bg', '#0a0a0a');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    document.documentElement.style.setProperty('--primary-yellow', '#FFD700');
+                    document.documentElement.style.setProperty('--dark-bg', '#121212');
+                }
+            });
+        }
+        
         // Animated counters for stats
         function animateCounter(element) {
             const target = parseInt(element.getAttribute('data-count'));
@@ -1694,44 +1921,6 @@ const scroll = new LocomotiveScroll({
             });
         }
         
-        // Menu toggle for mobile
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navMenu = document.querySelector('.nav-menu');
-        
-        if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-                navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
-            });
-            
-            // Adjust menu for window resize
-            window.addEventListener('resize', () => {
-                if (window.innerWidth > 768) {
-                    navMenu.style.display = 'flex';
-                } else {
-                    navMenu.style.display = 'none';
-                }
-            });
-        }
-        
-        // Theme toggle functionality
-        const themeToggle = document.querySelector('.theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                const icon = themeToggle.querySelector('i');
-                if (icon.classList.contains('fa-moon')) {
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
-                    document.documentElement.style.setProperty('--primary-yellow', '#FFA000');
-                    document.documentElement.style.setProperty('--dark-bg', '#0a0a0a');
-                } else {
-                    icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
-                    document.documentElement.style.setProperty('--primary-yellow', '#FFD700');
-                    document.documentElement.style.setProperty('--dark-bg', '#121212');
-                }
-            });
-        }
-        
         // Add hover animations to data points
         const dataPoints = document.querySelectorAll('.data-point');
         dataPoints.forEach(point => {
@@ -1746,7 +1935,7 @@ const scroll = new LocomotiveScroll({
             });
         });
         
-        // Animate activity items on hover
+        // Animate activity items
         const activityItems = document.querySelectorAll('.activity-item');
         activityItems.forEach((item, index) => {
             item.style.opacity = '0';
@@ -1771,17 +1960,18 @@ const scroll = new LocomotiveScroll({
                 item.style.transform = 'translateX(0)';
             }, index * 100 + 500);
         });
-const animatedCards = document.querySelectorAll('.card-animate');
+        
+        // Card animation observer
+        const animatedCards = document.querySelectorAll('.card-animate');
+        const animateObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        }, { threshold: 0.2 });
 
-const animateObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-        if(entry.isIntersecting){
-            entry.target.classList.add("visible");
-        }
-    });
-},{threshold:0.2});
-
-animatedCards.forEach(card=> animateObserver.observe(card));
+        animatedCards.forEach(card => animateObserver.observe(card));
     </script>
 </body>
 </html>
